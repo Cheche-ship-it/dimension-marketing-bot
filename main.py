@@ -725,9 +725,8 @@ def send_social_media_post():
 
     # 3. Randomly decide to post with image or not 
     # If IMAGE_URLS is empty, use_image will be False
-    # ALSO choose randomly between true and false
-    # to decide whether to use an image or not
-    use_image = bool(IMAGE_URLS) and random.choice([True, False])
+    # 75% chance to use an image if available
+    use_image = bool(IMAGE_URLS) and random.random() < 0.75
     # use_image = True
     image_path = None
     image_url = None
