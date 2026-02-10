@@ -15,28 +15,216 @@ import time # To add delays and avoid being blocked
 # Load environment variables from .env before any os.getenv calls
 load_dotenv()
 
+# --- Helper function to normalize GitHub URLs ---
+def normalize_github_url(url):
+    """
+    Converts GitHub web interface URLs to raw content URLs.
+    Example: https://github.com/user/repo/blob/main/file.jpg
+    becomes: https://raw.githubusercontent.com/user/repo/main/file.jpg
+    """
+    if "github.com" in url and "/blob/" in url:
+        url = url.replace("github.com", "raw.githubusercontent.com")
+        url = url.replace("/blob/", "/")
+    return url
+
 # --- Image URLs Fetch Logic ---
 # If IMAGE_URLS_URL is set in the environment, fetch the JSON from that URL.
 # Otherwise, use the default list.
-IMAGE_URLS_URL = os.getenv("IMAGE_URLS_URL", "https://raw.githubusercontent.com/Nduhiu17/marketing-snapshots/refs/heads/main/photos.json")
+IMAGE_URLS_URL = os.getenv("IMAGE_URLS_URL", "https://raw.githubusercontent.com/Cheche-ship-it/dimension-marketing-snapshots/main/photos.json")
 IMAGE_URLS = []
-# try:
-#     response = requests.get(IMAGE_URLS_URL, timeout=10)
-#     if response.status_code == 200:
-#         IMAGE_URLS = response.json()
-#         print(f"Fetched {len(IMAGE_URLS)} images from {IMAGE_URLS_URL}")
-#     else:
-#         print(f"Failed to fetch image URLs from {IMAGE_URLS_URL}, status code: {response.status_code}")
-# except Exception as e:
-#     print(f"Error fetching image URLs from {IMAGE_URLS_URL}: {e}")
-#     # Fallback to default list if fetch fails
-#     # IMAGE_URLS = [
-#     #     {
-#     #         "image_url": "https://ecogreencontractors.solutions/static/media/about1.1c4f9ffe16b2ddba4075.jpg",
-#     #         "topic": "Outside garden with flowers and walk ways"
-#     #     },
-#     #     # Add more image dicts as needed
-#     # ]
+try:
+    response = requests.get(IMAGE_URLS_URL, timeout=10)
+    if response.status_code == 200:
+        IMAGE_URLS = response.json()
+        # Normalize all image URLs to use raw content URLs
+        for item in IMAGE_URLS:
+            if "image_url" in item:
+                item["image_url"] = normalize_github_url(item["image_url"])
+        print(f"Fetched {len(IMAGE_URLS)} images from {IMAGE_URLS_URL}")
+    else:
+        print(f"Failed to fetch image URLs from {IMAGE_URLS_URL}, status code: {response.status_code}")
+except Exception as e:
+    print(f"Error fetching image URLs from {IMAGE_URLS_URL}: {e}")
+    # Fallback to default list if fetch fails
+    IMAGE_URLS = [
+    {
+        "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/digital-printing/1.jpeg",
+        "topic": "The \"True Color\" Guarantee:\nExplain the science of color calibration. Most clients fear their brand \"Orange\" looking \"Brown\" on a billboard. Discuss how your digital printing technology ensures Pantone consistency across every medium, from business cards to 48-sheet outdoor displays."
+    },
+    {
+        "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/digital-printing/2.jpeg",
+        "topic": "Mobile Real Estate: The ROI of Vehicle Wraps:Position branded vehicles as \"The Salesperson that Never Sleeps.\" Use data to show how many thousands of impressions a single branded truck makes daily on high-traffic routes like Mombasa Road or the Express Way."    
+    },
+    {
+        "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/digital-printing/3.jpeg",
+        "topic": "Material Science: Mesh vs. Solid Vinyl:\nEducate the client on durability. Discuss why Mesh banners are essential for windy high-rise locations (to prevent tearing) versus Solid PVC for maximum color \"pop\" at eye level. This builds your reputation as a technical expert, not just a printer."
+    },
+    {
+        "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/digital-printing/4.jpeg",
+        "topic": "\"Phygital\" Advertising: Integrating QR & AR\nIn 2026, print isn't static. Discuss how to integrate Augmented Reality (AR) triggers or high-res QR codes into large format prints, allowing passersby to \"scan\" a billboard and land directly on the e-commerce site we discussed earlier."
+    },
+    {
+        "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/digital-printing/5.jpeg",
+        "topic": "The Psychology of Large Format Design\nShare the \"3-Second Rule:\" Explain how to design for outdoor ads so that a driver can digest the message in three seconds. This adds value by showing you care about the effectiveness of their ad, not just the print quality."
+    },
+    {
+        "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/digital-printing/6.jpeg",
+        "topic": "Sustainability: Eco-Friendly \"Green\" Printing\nWith the global shift toward ESG (Environmental, Social, and Governance), discuss your use of Latex or Water-based inks and recyclable substrates. Brands are increasingly choosing vendors who help them reduce their carbon footprint."
+    },
+    {
+        "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/digital-printing/7.jpeg",
+        "topic": "Interior Branding: Turning Walls into Experiences\nMarket toward HR and Office Managers. Discuss how custom wall murals and floor graphics can transform a cold corporate office into a high-energy brand environment that boosts employee morale."
+    },
+    {
+        "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/digital-printing/8.jpeg",
+        "topic": "Event Readiness: The 24-Hour Turnaround\nPromote agility. Focus on your ability to deliver high-quality event backdrops and \"Step & Repeat\" banners on short notice for corporate launches, solving the \"last-minute panic\" for event planners."
+    },
+    {
+        "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/digital-printing/9.jpeg",
+        "topic": "Window Graphics: The \"One-Way Vision\" Magic\nShowcase the utility of perforated vinyl. Explain how retail shops can use their windows for massive branding without blocking natural light or the view from the inside."
+    },
+    {
+        "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/digital-printing/10.jpeg",
+        "topic": "The Future of Digital Printing: How we're preparing for the next generation of printing technologies."
+    },
+    {
+        "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/digital-printing/11.jpeg",
+        "topic": "A classic \"Educational\" topic. Explain why a low-res JPEG from WhatsApp will look \"pixelated\" on a billboard and why Vector files are the gold standard for large format. This saves you (and the client) from quality disputes."
+    },
+    {
+        "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/digital-printing/12.jpeg",
+        "topic": "The Cost of \"Cheap\" Printing\nA \"tough love\" topic. Discuss the hidden costs of low-quality printing—re-printing fees, damaged brand reputation, and peeling vinyl. Position your services as a long-term investment in brand integrity."
+    },
+    {
+        "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/heat-press/1.jpeg",
+        "topic": "The \"Walking Billboard\" Strategy:\nConnect your apparel branding to your outdoor advertising. Explain how a branded t-shirt or jacket acts as a mobile extension of a massive billboard campaign. If people see the billboard on the highway and then see your team wearing the brand in the supermarket, the \"frequency of touch\" doubles."
+    },
+    {
+        "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/heat-press/2.jpeg",
+        "topic": "Safety First: Reflective & High-Vis Branding\nFor your construction and logistics clients, market reflective heat-press vinyl. Discuss the importance of branding safety gear (vests, jackets) that stays visible at night. It’s not just branding; it’s a safety requirement that looks professional."
+    },
+    {
+        "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/heat-press/3.jpeg",
+        "topic": "The \"No-Minimums\" Advantage:\nUnlike screen printing (which requires expensive screens), heat press is perfect for small batches. Market this to SMEs or corporate departments that only need 5 or 10 high-quality pieces. \"Professional branding, even if you’re a team of three.\""
+    },
+    {
+        "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/heat-press/4.jpeg",
+        "topic": "Texture That Talks: Puff, Glitter, & Metallic\nDigital printing is flat, but heat press can be 3D. Discuss \"Puff\" prints, metallic foils, and \"Flock\" (velvet) textures. Explain how these premium finishes make a corporate polo shirt feel like high-end retail merchandise."
+    },
+    {
+        "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/heat-press/5.jpeg",
+        "topic": "The \"Anti-Crack\" Science (Durability):\nAddress the common fear that \"the sticker will peel off.\" Educate your audience on the science of Time, Temperature, and Pressure. Explain how professional-grade heat pressing fuses the design into the fibers, ensuring it survives the \"Wash Test.\""
+    },
+    {
+        "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/heat-press/6.jpeg",
+        "topic": "Personalization at Scale: Names & Numbers\nThis is the \"Sports Team\" angle. Discuss your ability to take a corporate order and add individual employee names or department titles to each garment. It’s the ultimate way to build team morale and a sense of belonging."
+    },
+    {
+        "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/heat-press/7.jpeg",
+        "topic": "Branding the Unconventional: Umbrellas & Bags\nSince you do outdoor advertising, market branded umbrellas and tote bags. Heat press is the king of difficult surfaces. Use this to show how a brand can stay visible even when it’s raining in Nairobi."
+    },
+    {
+        "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/heat-press/8.jpeg",
+        "topic": "The \"Billboards for the Head\": Custom Caps\nCaps are one of the highest-value promotional items. Discuss the different placements for heat press on headwear—front, side, and even the brim. It’s a low-cost, high-visibility branding \"landmark\" for the face."
+    },
+    {
+        "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/heat-press/9.jpeg",
+        "topic": "The \"Wash Test\" Challenge:\nCreate a fun, interactive post where you show a heat-pressed shirt going through multiple wash cycles. This builds trust by demonstrating durability and quality in a way that’s more engaging than just saying \"it won’t peel.\""
+    },
+    {
+        "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/heat-press/10.jpeg",
+        "topic": "From Digital Design to Fabric:Show the \"Behind the Scenes\" of the Print-and-Cut process. People love seeing the precision of a plotter cutting a complex logo and the satisfying \"peel\" after the heat press is lifted. It proves the \"custom\" nature of the work."
+    },
+    {
+        "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/large-format-printing/1.jpeg",
+        "topic": "The \"Landmark\" Strategy\nTeach clients how to turn a building or a fence into a landmark. Discuss the psychological power of Building Wraps—how a brand that occupies a massive physical space is automatically perceived as a \"market leader\" or \"too big to fail.\"\nThis is especially effective for clients in competitive industries who want to assert dominance."
+    },
+
+        {
+            "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/large-format-printing/2.jpeg",
+            "topic": "The Science of Viewing Distance\nEducate clients on \"DPI vs. Distance.\" Explain why a billboard on the Thika Road Superhighway doesn't need the same resolution as a pull-up banner at a gala. This positions you as an expert who saves them money on file processing while ensuring the print looks crisp from 50 meters away."
+        },
+        {
+            "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/large-format-printing/3.jpeg",
+            "topic": "UV-Resistance: Winning the War Against the Sun\nAddress the \"Fading\" pain point directly. Explain the technology behind UV-cured inks and specialized laminates. Show them why a \"cheap\" print that fades in three months is actually 3x more expensive than a premium print that stays vibrant for two years."
+        },
+        {
+            "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/large-format-printing/4.jpeg",
+            "topic": "Mesh Banners: Engineering for the Wind\nA great technical topic. Explain why Mesh is the only choice for high-rise scaffolding or bridge banners. Discuss how the \"perforated\" nature allows wind to pass through, preventing the \"sail effect\" that can tear down expensive frames and cause safety hazards."
+        },
+        {
+            "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/large-format-printing/5.jpeg",
+            "topic": "The \"Backlit\" Glow: Owning the Night\nDiscuss the difference between standard Frontlit and Backlit Flex. Focus on how illuminated large format ads ensure the brand doesn't \"disappear\" at 6:30 PM, effectively giving the client 24-hour visibility for the price of one print."
+        },
+        {
+            "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/large-format-printing/6.jpeg",
+            "topic": "The \"Custom\" Advantage: Why You Can't Buy It Off the Shelf\nExplain how a custom print is more valuable than a generic one. Show how a client's unique logo, colors, and message are preserved in a way that off-the-shelf prints simply cannot match."
+        },
+        {
+            "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/large-format-printing/7.jpeg",
+            "topic": "Vector vs. Raster: The \"Giant Pixel\" Horror Story\nUse humor to educate. Show a \"pixelated\" blurry face next to a crisp vector-printed face. Explain why high-quality source files are the \"DNA\" of a successful large format project. This reduces your \"bad artwork\" headaches and positions you as a quality-first shop."
+        },
+        {
+            "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/large-format-printing/8.jpeg",
+            "topic": "Interior \"Experience\" Branding\nMarket to corporate architects and HR. Discuss Wall Murals and custom wallpapers. Show how large format isn't just for outdoors; it’s for turning a cold, white office lobby into a brand-immersive \"experience\" that impresses visitors and boosts staff morale."
+        },
+        {
+            "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/screen-print/1.jpeg",
+            "topic": "The \"Power of the Bulk\" Economy\nEducate your clients on the \"Sweet Spot.\" Explain why screen printing is the undisputed king of large orders. Use a simple chart to show how the price per shirt drops significantly as the quantity increases—making it the most budget-friendly option for massive corporate activations or political campaigns."
+        },
+        {
+            "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/screen-print/2.jpeg",
+            "topic": "Pantone Perfection: The \"Spot Color\" Advantage\nUnlike digital printers that \"guess\" colors using CMYK, screen printing uses actual mixed ink. Discuss your ability to provide 100% accurate Pantone matching. This is a major selling point for institutional brands (like LGT) that are obsessive about their specific corporate colors."
+        },
+        {
+            "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/screen-print/3.jpeg",
+            "topic": "The \"Custom\" Advantage: Why You Can't Buy It Off the Shelf\nExplain how a custom print is more valuable than a generic one. Show how a client's unique logo, colors, and message are preserved in a way that off-the-shelf prints simply cannot match."
+        },
+        {
+            "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/screen-print/4.jpeg",
+            "topic": "The \"Artisan\" Touch: Why Handcrafted Matters\nPosition screen printing as an art form. Discuss the craftsmanship involved in setting up screens, mixing inks, and ensuring each print is done with care. This appeals to clients who value quality and uniqueness over mass production."
+        },
+        {
+            "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/screen-print/5.jpeg",
+            "topic": "The \"Legacy Shirt\" (Indestructible Durability)\nMarket the longevity of the ink. Explain how plastisol or water-based inks bond with the fabric. \"The shirt might wear out in 10 years, but the print will still be there.\" This appeals to clients who want their \"Walking Billboards\" to last through hundreds of washes."
+        },
+        {
+            "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/screen-print/6.jpeg",
+            "topic": "Texture & Specialty Inks: Beyond the Flat Look\nGo where digital can't. Discuss High-Density (3D) printing, Glow-in-the-Dark, and Metallic Gold/Silver. These specialty finishes make a brand feel premium and \"bespoke\" in a way that standard digital prints cannot replicate."
+        },
+        {
+            "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/screen-print/7.jpeg",
+            "topic": "Water-Based vs. Plastisol: Choosing Your Feel\nEducate the \"fashion-forward\" crowd. Explain the difference between the heavy, durable feel of Plastisol (best for workwear) and the \"Soft-Hand\" feel of water-based inks (best for high-end retail and soft t-shirts). This positions you as a consultant, not just a vendor."
+        },
+        {
+            "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/screen-print/8.jpeg",
+            "topic": "The Art of the Squeegee (Process Appreciation)\nScreen printing is incredibly \"satisfying\" to watch. Use your DimensionOutlook handle to share high-definition videos of ink being pushed through the mesh. The \"Behind the Scenes\" of the darkroom and the burning of screens proves the craftsmanship involved in your work."
+        },
+        {
+            "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/screen-print/9.jpeg",
+            "topic": "The \"Printed on Demand\" Advantage\nExplain how screen printing allows for small batch runs without the high setup costs of traditional offset printing. This is especially valuable for startups and small businesses that don't want to commit to large quantities."
+        },
+        {
+            "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/screen-print/10.jpeg",
+            "topic": "Branding \"The Tough Stuff\" (Nylon & Canvas)\nLarge format printing often involves umbrellas, raincoats, and heavy-duty canvas bags. Market screen printing as the solution for these \"difficult\" materials where other printing methods might fail to stick or peel off."
+        },
+        {
+            "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/screen-print/11.jpeg",
+            "topic": "Merchandise as a Revenue Stream\nTarget influencers, schools, and content creators. Show them how they can turn their brand into a profit center by screen-printing hoodies and tees in bulk. Provide a \"Profit Margin\" breakdown to show them how much they can make per item."
+        },
+        {
+            "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/screen-print/12.jpeg",
+            "topic": "Consistency is King\nIn outdoor advertising, you might need 1,000 branded caps for a street team. Discuss how screen printing ensures that the 1st item and the 1,000th item look identical. No \"digital drift\" or color shifts mid-run."
+        },
+        {
+            "image_url": "https://github.com/Cheche-ship-it/dimension-marketing-snapshots/blob/main/signage/1.jpeg",
+            "topic": "The Landmark Effect: Turning Your Location into a Silent 24/7 Salesman."
+        }
+    ]
+    # Normalize fallback URLs to use raw content URLs
+    for item in IMAGE_URLS:
+        if "image_url" in item:
+            item["image_url"] = normalize_github_url(item["image_url"])
 
 # --- Configuration ---
 # Gemini API Key: Get this from Google AI Studio or Google Cloud Console.
@@ -539,7 +727,8 @@ def send_social_media_post():
     # If IMAGE_URLS is empty, use_image will be False
     # ALSO choose randomly between true and false
     # to decide whether to use an image or not
-    use_image = bool(IMAGE_URLS) and random.choice([True, False])
+    # use_image = bool(IMAGE_URLS) and random.choice([True, False])
+    use_image = True
     image_path = None
     image_url = None
     image_topic = None
